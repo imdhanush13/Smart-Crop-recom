@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Damage Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1573497491208-6b1acb260507'); /* Placeholder background */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+        }
+        .header {
+            background-color: rgba(0, 100, 0, 0.8);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 10px 10px;
+        }
+        .header h2 {
+            margin: 0;
+            font-weight: bold;
+        }
+        .header img {
+            height: 40px;
+        }
+        .form-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        label img {
+            height: 24px;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>🌾 Crop Damage Prediction</h2>
+        <img src="https://cdn-icons-png.flaticon.com/512/2909/2909764.png" alt="logo"> <!-- Icon top-right -->
+    </div>
+
+    <div class="container">
+        <div class="form-card mx-auto col-lg-8">
+            <form method="POST" action="/predict">
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+                        <label>
+                            Estimated Insects Count:
+                        </label>
+                        <input type="number" name="Estimated_Insects_Count" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2565/2565595.png"> Crop Type:
+                        </label>
+                        <select name="Crop_Type" class="form-select">
+                            <option value="Kharif">Kharif</option>
+                            <option value="Rabi">Rabi</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2909/2909810.png"> Soil Type:
+                        </label>
+                        <select name="Soil_Type" class="form-select">
+                            <option value="Alluvial">Alluvial</option>
+                            <option value="Black-Cotton">Black-Cotton</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2909/2909802.png"> Pesticide Use Category:
+                        </label>
+                        <select name="Pesticide_Use_Category" class="form-select">
+                            <option value="Insecticides">Insecticides</option>
+                            <option value="Bactericides">Bactericides</option>
+                            <option value="Herbicides">Herbicides</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            Number of Doses per Week:
+                        </label>
+                        <input type="number" name="Number_Doses_Week" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            Number of Weeks Used:
+                        </label>
+                        <input type="number" name="Number_Weeks_Used" class="form-control" step="any" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            Number of Weeks Quit:
+                        </label>
+                        <input type="number" name="Number_Weeks_Quit" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png"> Season:
+                        </label>
+                        <select name="Season" class="form-select">
+                            <option value="Summer">Summer</option>
+                            <option value="Monsoon">Monsoon</option>
+                            <option value="Winter">Winter</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+                        <input type="submit" value="Predict" class="btn btn-success w-100">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <a href="/" class="btn btn-warning w-100">Reset</a>
+                    </div>                    
+
+                </div>
+            </form>
+
+            {% if show_prediction %}
+                <div class="mt-4 alert alert-info text-center">
+                    <h5>{{ prediction_text }}</h5>
+                </div>
+        
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
