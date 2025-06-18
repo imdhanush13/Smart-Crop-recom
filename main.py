@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, request, jsonify
 import joblib
 import numpy as np
 import pandas as pd
-import mysql.connector
 from datetime import datetime
 
 main = Blueprint('main', __name__)
@@ -15,14 +14,7 @@ scaler = joblib.load("scaler.pkl")
 weather_df = pd.read_csv("weather-1.csv")
 rainfall_df = pd.read_csv("Monthly District Avg RainFall 1901 - 2017.csv")
 
-# DB Connection
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Dhanush08@",
-    database="crop"
-)
-cursor = db.cursor()
+
 
 crop_label_mapping = {
     0: 'apple', 1: 'banana', 2: 'blackgram', 3: 'chickpea', 4: 'coconut',
@@ -86,11 +78,6 @@ def predict_crop():
         pred = model.predict(scaled)[0]
         crop = crop_label_mapping[pred]
 
-        cursor.execute("""
-            INSERT INTO crop_data (N, P, K, temperature, humidity, ph, rainfall, predicted_crop)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """, (N, P, K, temp, humidity, ph, rainfall, crop))
-        db.commit()
 
         return render_template("index.html", prediction_text=f"🌾 Predicted Crop: {crop.capitalize()}", show_prediction=True)
     except Exception as e:
